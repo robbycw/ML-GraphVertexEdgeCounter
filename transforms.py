@@ -91,5 +91,5 @@ class ToTensor(object):
         # numpy image: H x W x C
         # torch image: C x H x W
         image = image.transpose((2, 0, 1))
-        return {'image': torch.from_numpy(image),
+        return {'image': torch.from_numpy(image).double(),
                 'vertices': vertices}

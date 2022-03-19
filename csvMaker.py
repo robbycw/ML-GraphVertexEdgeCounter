@@ -4,7 +4,7 @@
 from pathlib import Path
 import csv
 
-img_folder = Path("c:\\Users\\bsawe\\Documents\\GitHub\\ML-GraphVertexEdgeCounter\\graphdata")
+img_folder = Path("c:\\Users\\bsawe\\Documents\\GitHub\\ML-GraphVertexEdgeCounter\\testdata")
 img_files = [file.name for file in img_folder.rglob("*.*")]
 csv_file = img_folder / "verticesCount.csv"
 

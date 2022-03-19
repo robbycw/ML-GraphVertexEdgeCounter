@@ -53,7 +53,7 @@ class VertexGraphImageDatasets(Dataset):
 
         return sample
 
-
+"""
 # Short test that shows the dataset is able to access the .csv file and print each image array and vertex count.
 vert_dataset = VertexGraphImageDatasets(csv_file='C:/Users/bsawe/Documents/GitHub/ML-GraphVertexEdgeCounter/graphdata/verticesCount.csv', 
                                         root_dir='C:/Users/bsawe/Documents/GitHub/ML-GraphVertexEdgeCounter/graphdata/')
@@ -83,3 +83,4 @@ for i_batch, sample_batched in enumerate(dataloader):
 
     if i_batch == 3: 
         break
+"""
