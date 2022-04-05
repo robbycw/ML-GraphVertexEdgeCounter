@@ -67,7 +67,7 @@ if(loadNet == 0):
 elif(loadNet == 1):
     # Creating new network. 
     file = input("Enter name of the new neural network: ")
-    path = "./" + file
+    path = "./" + file + ".pth"
     if(exists(path)):
         print("This neural network already exists. Please delete the file and try again. Exiting...")
         sys.exit()
@@ -82,9 +82,9 @@ else:
 
 # Initialize loss function and optimizer
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.9)
 
-for epoch in range(2):  # Number of times to loop over dataset 
+for epoch in range(5):  # Number of times to loop over dataset 
 
     running_loss = 0.0
 
