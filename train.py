@@ -22,7 +22,7 @@ from dataset import VertexGraphImageDatasets
 transform = transforms.Compose([Rescale(256), RandomCrop(224), ToTensor()])
 #transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
 
-batch_size = 1
+batch_size = 4
 
 trainset = VertexGraphImageDatasets(csv_file='./graphdata/verticesCount.csv', 
                                         root_dir='./graphdata/',
@@ -47,7 +47,7 @@ if(gpu == 0):
 
 # Asks the user if they want to load an existing Neural Network to train
 # or to start training a new network. 
-
+"""
 loadNet = input("Train existing network or New Network? Existing=0 ; New=1 ")
 loadNet = int(loadNet)
 # Paths are assumed to start in the repository folder. 
@@ -76,15 +76,24 @@ elif(loadNet == 1):
 else:
     print("Invalid input. Exiting...")
     sys.exit()
+"""
 
 # Send Net to proper device. Not Implemented
 # net.to(device)
+
+# Initialize neural network. 
+net = VertexCountNet(16)
+net = net.float()
+path = "./model2.pth"
+
+# Initialize Neural Network from given path, if desired. 
+# net.load_state_dict(torch.load(path))
 
 # Initialize loss function and optimizer
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.9)
 
-for epoch in range(5):  # Number of times to loop over dataset 
+for epoch in range(10):  # Number of times to loop over dataset 
 
     running_loss = 0.0
 
@@ -108,8 +117,8 @@ for epoch in range(5):  # Number of times to loop over dataset
 
         # print statistics
         running_loss += loss.item()
-        if i % 2000 == 1999:    # print every 2000 mini-batches
-            print(f'[{epoch + 1}, {i + 1:5d}] loss: {running_loss / 2000:.3f}')
+        if i % 200 == 199:    # print every 200 mini-batches
+            print(f'[{epoch + 1}, {i + 1:5d}] loss: {running_loss / 200:.5f}')
             running_loss = 0.0
 
 print('Finished Training')
