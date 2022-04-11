@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 *.png
 model1.pth
+*.pth

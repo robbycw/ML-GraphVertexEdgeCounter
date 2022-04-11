@@ -19,7 +19,7 @@ from dataset import VertexGraphImageDatasets
 
 # Initialize transforms, training set, training data loader, and note classes go from 0-15 vertices. 
 
-transform = transforms.Compose([Rescale(256), RandomCrop(224), ToTensor()])
+transform = transforms.Compose([Rescale((224,224)), ToTensor()])
 #transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
 
 batch_size = 4
@@ -84,7 +84,7 @@ else:
 # Initialize neural network. 
 net = VertexCountNet(16)
 net = net.float()
-path = "./model2.pth"
+path = "./model6.pth"
 
 # Initialize Neural Network from given path, if desired. 
 # net.load_state_dict(torch.load(path))
@@ -93,7 +93,7 @@ path = "./model2.pth"
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.9)
 
-for epoch in range(10):  # Number of times to loop over dataset 
+for epoch in range(5):  # Number of times to loop over dataset 
 
     running_loss = 0.0
 
@@ -104,7 +104,6 @@ for epoch in range(10):  # Number of times to loop over dataset
         vert = vert.long()
 
         imag = sample['image']
-        
 
         # zero the parameter gradients
         optimizer.zero_grad()

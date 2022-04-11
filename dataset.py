@@ -46,6 +46,9 @@ class VertexGraphImageDatasets(Dataset):
         image = io.imread(img_name)
         vertices = self.csv.iloc[idx, 1]
         vertices = vertices.astype(int)
+
+        # Eliminate alpha channel
+        image = image[:, :, :3]
         sample = {'image': image, 'vertices': vertices}
 
         if self.transform:
@@ -61,6 +64,8 @@ vert_dataset = VertexGraphImageDatasets(csv_file='C:/Users/bsawe/Documents/GitHu
 for i in range(len(vert_dataset)):
     sample = vert_dataset[i]
     print(i, sample['image'].shape, sample['vertices'])
+    if(i == 5):
+        break
 
 # This following test does the same thing, but applies transforms to the images and makes sure that the image sizes were changed. 
 transformed_dataset = VertexGraphImageDatasets(csv_file='C:/Users/bsawe/Documents/GitHub/ML-GraphVertexEdgeCounter/graphdata/verticesCount.csv', 
@@ -76,10 +81,14 @@ for i in range(len(transformed_dataset)):
 
 # This tests applies transforms and iterates over the dataset with a DataLoader. 
 
-dataloader = DataLoader(transformed_dataset, batch_size=4, shuffle=True, num_workers=0)
+dataloader = DataLoader(transformed_dataset, batch_size=1, shuffle=True, num_workers=0)
 
 for i_batch, sample_batched in enumerate(dataloader):
     print(i_batch, sample_batched['image'].size(), sample_batched['vertices'])
+    # Try slicing off alpha channel 
+    img = sample_batched['image']
+    #img = img[:, :3, :, :]
+    #print(img.size())
 
     if i_batch == 3: 
         break
