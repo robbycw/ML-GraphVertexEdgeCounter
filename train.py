@@ -20,7 +20,6 @@ from dataset import VertexGraphImageDatasets
 # Initialize transforms, training set, training data loader, and note classes go from 0-15 vertices. 
 
 transform = transforms.Compose([Rescale((224,224)), ToTensor()])
-#transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
 
 batch_size = 4
 
