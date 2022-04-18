@@ -17,13 +17,13 @@ class VertexCountNet(torch.nn.Module):
         # 1st Convolutional Layer: Takes 3 input channels (color), 6 output (features), 9x9 square convolution
         #   produces 6x216x216 output tensor. 
         #   max pooling by 2 reduces this to 6x108x108
-        # 2nd Convolutional Layer: Takes 6 input channels (color), 10 output (features), 4x4 square convolution
+        # 2nd Convolutional Layer: Takes 6 input channels (features), 10 output (features), 5x5 square convolution
         #   produces 10x104x104 output tensor. 
-        #   max pooling by 4 reduces this to 10x26x26
-        self.conv1 = torch.nn.Conv2d(4, 6, kernel_size=(9, 9))
-        self.conv2 = torch.nn.Conv2d(6, 10, kernel_size=(4, 4))
-
-        self.fc1 = torch.nn.Linear(10 * 26 * 26, 500)
+        #   max pooling by 2 reduces this to 10x52x52
+        self.conv1 = torch.nn.Conv2d(3, 16, kernel_size=(9, 9))
+        self.conv2 = torch.nn.Conv2d(16, 32, kernel_size=(5, 5))
+        self.dropout1 = torch.nn.Dropout(0.5)
+        self.fc1 = torch.nn.Linear(32 * 52 * 52, 500)
         self.fc2 = torch.nn.Linear(500, 100)
         self.fc3 = torch.nn.Linear(100, num_classes)
         self.sm = torch.nn.Softmax()
@@ -32,7 +32,8 @@ class VertexCountNet(torch.nn.Module):
         # Max Pooling over 2x2 window (merges groups of 2x2 entries in Tensor)
         out = x.to(torch.float32)
         out = F.max_pool2d(F.relu(self.conv1(out)), 2)
-        out = F.max_pool2d(F.relu(self.conv2(out)), 4)
+        out = F.max_pool2d(F.relu(self.conv2(out)), 2)
+        out = self.dropout1(out)
         out = out.view(-1, self.num_flat_features(out)) # reshapes Tensor from Convolutional shape to Linear shape
         out = F.relu(self.fc1(out))
         out = F.relu(self.fc2(out))

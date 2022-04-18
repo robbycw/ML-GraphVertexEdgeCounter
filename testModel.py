@@ -21,7 +21,7 @@ from dataset import VertexGraphImageDatasets
 # Based on a tutorial from https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html 
 
 
-transform = transforms.Compose([Rescale(256), RandomCrop(224), ToTensor()])
+transform = transforms.Compose([Rescale((224,224)), ToTensor()])
 
 batch_size = 1
 
