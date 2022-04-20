@@ -53,6 +53,8 @@ net.load_state_dict(torch.load(path))
 correct = 0
 total = 0
 
+sumOfDifferences = 0
+
 with torch.no_grad(): # not needed since gradients are only needed when training
     for data in testloader:
 
@@ -65,8 +67,14 @@ with torch.no_grad(): # not needed since gradients are only needed when training
         total += vertices.size(0)
         correct += (predicted == vertices).sum().item()
 
+        # Calculate Average Difference
+        x = predicted[0].item()
+        sumOfDifferences += abs(vertices.item() - x)
+
+
 # Print results
 print(f'Correct:  {correct}')
 print(f'Total Images:  {total}')
-print(f'Accuracy of the neural network on the test images: {100 * correct // total} %')
+print(f'Accuracy of the neural network on the test images: {100.0 * float(correct) / float(total)} %')
+print(f'Average Difference between Predicted and Actual: {float(sumOfDifferences) / float(total)}')
 print('Finished Testing')
